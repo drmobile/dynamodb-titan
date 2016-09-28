@@ -9,7 +9,7 @@ services:
 
   # titan on dynamodb container
   titan-on-dynamodb: 
-    image: brainframe/titan-on-dynamodb
+    image: jonascheng/titan-on-dynamodb
     environment:
       - DYNAMODB_HOSTPORT=http://dynamodb-local:8000
       - AWS_ACCESS_KEY_ID=notcheckedlocallybutmustbeprovided

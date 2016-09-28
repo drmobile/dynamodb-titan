@@ -6,6 +6,12 @@ services:
   - docker
 
 before_install:
+  - docker pull jonascheng/titan-on-dynamodb
+  - pushd docker
+  - pushd titan-on-dynamodb
+  - docker build -t jonascheng/titan-on-dynamodb -f Dockerfile .
+  - popd
+  - popd
 
 install:
   - docker-compose up -d
