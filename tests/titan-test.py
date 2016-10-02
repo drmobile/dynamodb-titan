@@ -8,17 +8,19 @@
 
 from bulbs.titan import Graph, Config
 from bulbs.config import DEBUG, ERROR
-from bulbs.model import Node, Relationship
-from bulbs.property import String, Integer, DateTime
-from bulbs.utils import current_datetime
 
 config = Config("http://localhost:8182/graphs/yourdatabasename/")
 g = Graph(config)
 
 g.config.set_logger(DEBUG)
-# g.config.set_logger(ERROR)
+g.scripts.update('gremlin.groovy')  # add file to scripts index
 
-james = g.vertices.create(name="James")
-julie = g.vertices.create(name="Julie")
-g.edges.create(james, "knows", julie)
+g.gremlin.command(g.scripts.get('loadGraphOfTheGodsFactory'), dict())
 
+# locate saturn node
+saturn = g.vertices.get_or_create('name', 'saturn')
+# index name
+assert(saturn.get_index_name(config)=='vertex')
+# get saturn's grandchild
+hercules = g.gremlin.query(g.scripts.get('getGrandChild'), dict(name='saturn'))
+assert(str(hercules.next().get('name'))=='hercules')
