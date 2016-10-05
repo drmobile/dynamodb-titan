@@ -20,5 +20,5 @@ saturn = g.vertices.get_or_create('name', 'saturn')
 # index name
 assert(saturn.get_index_name(config)=='vertex')
 # get saturn's grandchild
-hercules = g.gremlin.query(g.scripts.get('getGrandChild'), dict(name='saturn'))
+hercules = g.gremlin.query(g.scripts.get('getGrandChild'), dict(key='name',value='saturn', rel='father'))
 assert(str(hercules.next().get('name'))=='hercules')

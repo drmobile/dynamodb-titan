@@ -109,17 +109,22 @@ def loadGraphOfTheGodsFactory2() {
     }
 }
 
-def getGrandChild(name) {
-    me = g.V.has('name',name).next()
-    return me.in('father').in('father')
+def getGrandChild(key, value, rel) {
+    me = g.V.has(key,value).next()
+    return me.in(rel).in(rel)
 }
 
 def createSchema() {
     mgmt = g.getManagementSystem();
-    name = mgmt.makePropertyKey("account_name").dataType(String.class).make();
-    namei = mgmt.buildIndex("account_name",Vertex.class).addKey(name).unique().buildCompositeIndex();
-    mgmt.setConsistency(namei, com.thinkaurelius.titan.core.schema.ConsistencyModifier.LOCK);
+    if (mgmt.getPropertyKey('titan_name') == null) {
+        name = mgmt.makePropertyKey("titan_name").dataType(String.class).make();
+        namei = mgmt.buildIndex("titan_name",Vertex.class).addKey(name).unique().buildCompositeIndex();
+        mgmt.setConsistency(namei, com.thinkaurelius.titan.core.schema.ConsistencyModifier.LOCK);
+        age = mgmt.makePropertyKey("titan_age").dataType(Integer.class).make();
+        mgmt.buildIndex("titan_age",Vertex.class).addKey(age).buildMixedIndex("search");
 
+        mgmt.makeEdgeLabel("titan_father").multiplicity(com.thinkaurelius.titan.core.Multiplicity.MANY2ONE).make();
+    }
     mgmt.commit();
 }
 
