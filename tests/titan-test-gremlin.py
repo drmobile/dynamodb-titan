@@ -13,7 +13,7 @@ g = Graph(config)
 g.config.set_logger(DEBUG)
 g.scripts.update('gremlin.groovy')  # add file to scripts index
 
-g.gremlin.command(g.scripts.get('loadGraphOfTheGodsFactory'), dict())
+g.gremlin.command(g.scripts.get('loadGraphOfTheGodsFactory2'), dict())
 
 # locate saturn node
 saturn = g.vertices.get_or_create('name', 'saturn')
