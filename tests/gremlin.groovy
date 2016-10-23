@@ -8,7 +8,8 @@ def loadGraphOfTheGodsFactory() {
 }
 
 def loadGraphOfTheGodsFactory2() {
-    //Create Schema
+    //Create Schema,
+    // https://github.com/thinkaurelius/titan/blob/titan05/titan-core/src/main/java/com/thinkaurelius/titan/example/GraphOfTheGodsFactory.java
     mgmt = g.getManagementSystem();
     if (mgmt.getEdgeLabel('brother') == null) {
         name = mgmt.makePropertyKey("name").dataType(String.class).make();
@@ -39,6 +40,9 @@ def loadGraphOfTheGodsFactory2() {
         mgmt.makeVertexLabel("monster").make();
 
         mgmt.commit();
+
+        // Graph Of The Gods
+        // http://s3.thinkaurelius.com/docs/titan/0.5.4/getting-started.html
 
         tx = g.newTransaction();
         // vertices
@@ -109,26 +113,23 @@ def loadGraphOfTheGodsFactory2() {
     }
 }
 
-def getGrandChild(key, value, rel) {
-    me = g.V.has(key,value).next()
-    return me.in(rel).in(rel)
+def getGrandChild(name) {
+    me = g.V.has('name',name).next()
+    return me.in('father').in('father')
 }
 
-def createSchema() {
-    mgmt = g.getManagementSystem();
-    if (mgmt.getPropertyKey('titan_name') == null) {
-        name = mgmt.makePropertyKey("titan_name").dataType(String.class).make();
-        namei = mgmt.buildIndex("titan_name",Vertex.class).addKey(name).unique().buildCompositeIndex();
-        mgmt.setConsistency(namei, com.thinkaurelius.titan.core.schema.ConsistencyModifier.LOCK);
-        age = mgmt.makePropertyKey("titan_age").dataType(Integer.class).make();
-        mgmt.buildIndex("titan_age",Vertex.class).addKey(age).buildMixedIndex("search");
-
-        mgmt.makeEdgeLabel("titan_father").multiplicity(com.thinkaurelius.titan.core.Multiplicity.MANY2ONE).make();
-    }
-    mgmt.commit();
+def queryBattleWith(name) {
+    return g.V.has('name',name).next().query().labels('battled').direction(OUT).orderBy('time',
+    com.thinkaurelius.titan.core.Order.DESC).vertices()
 }
 
-def getVertexByAccountName(name) {
-    me = g.V.has('account_name',name).next()
-    return me
+def queryBattleWithLimit(name, limit) {
+    return g.V.has('name',name).next().query().labels('battled').direction(OUT).orderBy('time',
+            com.thinkaurelius.titan.core.Order.DESC).limit(limit).vertices()
+}
+
+def queryBattleWithConditionLimit(name, time, limit) {
+//    return g.V.has('name',name).outE('battled').has('time', T.lt, time).inV[0..<limit]
+// Alternative way
+    return g.V.has('name',name).next().query().labels('battled').direction(OUT).has('time', Compare.LESS_THAN, time).orderBy('time', com.thinkaurelius.titan.core.Order.DESC).limit(limit).vertices()
 }

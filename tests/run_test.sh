@@ -2,7 +2,6 @@
 sleep 30
 
 python dynamo-local-test.py
-#python titan-test.py
 python titan-test-gremlin.py
 python titan-test-model.py
 

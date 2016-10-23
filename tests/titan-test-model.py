@@ -13,39 +13,60 @@ from bulbs.utils import current_datetime
 class Titan(Node):
     element_type = 'titan'
 
-    titan_name = String(nullable=False, unique=True, indexed=True)
-    titan_age = Integer()
+    name = String()
+    age = Integer()
 
 class Father(Relationship):
-    label = 'titan_father'
+    label = 'father'
 
 config = Config("http://localhost:8182/graphs/yourdatabasename/")
 g = Graph(config)
 
-g.config.set_logger(DEBUG)
+#g.config.set_logger(DEBUG)
 g.scripts.update('gremlin.groovy')  # add file to scripts index
-g.gremlin.command(g.scripts.get('createSchema'), dict())
 
 g.add_proxy('titan', Titan)
 g.add_proxy('father', Father)
 
-# create account nodes
-saturn = g.titan.get_or_create('titan_name', 'saturn', {'titan_name': 'saturn', 'titan_age': 10000})
-jupiter = g.titan.get_or_create('titan_name', 'jupiter', {'titan_name': 'jupiter', 'titan_age': 5000})
-hercules = g.titan.get_or_create('titan_name', 'hercules', {'titan_name': 'hercules', 'titan_age': 30})
-nobody = g.titan.index.lookup(account_name='nobody')
-# check return nodes
-assert(str(saturn.get('titan_name'))=='saturn')
-assert(jupiter.get('titan_age')==5000)
-assert(nobody==None)
+'''
+Testing scenarios
+'''
 
-# creat relationship
-try:
-    g.father.create(jupiter, saturn)
-    g.father.create(hercules, jupiter)
-except:
-    pass
-
+# locate saturn node
+saturn = g.titan.get_or_create('name', 'saturn')
+# index name
+assert(saturn.get_index_name(config)=='vertex')
 # get saturn's grandchild
-hercules = g.gremlin.query(g.scripts.get('getGrandChild'), dict(key='titan_name', value='saturn', rel='titan_father'))
-assert(str(hercules.next().get('titan_name'))=='hercules')
+hercules = g.gremlin.query(g.scripts.get('getGrandChild'), dict(name='saturn'))
+assert(hercules.next().get('name')=='hercules')
+
+'''
+Index
+'''
+# simple query hercules battled with
+battledWithHercules = g.gremlin.query(g.scripts.get('queryBattleWith'), dict(name='hercules'))
+assert(battledWithHercules.next().get('name')=='cerberus')
+assert(battledWithHercules.next().get('name')=='hydra')
+assert(battledWithHercules.next().get('name')=='nemean')
+# query with limit
+battledWithHercules = g.gremlin.query(g.scripts.get('queryBattleWithLimit'), dict(name='hercules', limit=2))
+assert(battledWithHercules.next().get('name')=='cerberus')
+assert(battledWithHercules.next().get('name')=='hydra')
+exceptCaught = False
+try:
+    battledWithHercules.next().get('name')
+except:
+    exceptCaught = True
+    pass
+assert(exceptCaught==True)
+# query with condition and limit
+battledWithHercules = g.gremlin.query(g.scripts.get('queryBattleWithConditionLimit'), dict(name='hercules', time=10, limit=1))
+assert(battledWithHercules.next().get('name')=='hydra')
+exceptCaught = False
+try:
+    battledWithHercules.next().get('name')
+except:
+    exceptCaught = True
+    pass
+assert(exceptCaught==True)
+
