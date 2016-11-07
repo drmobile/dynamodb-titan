@@ -16,18 +16,20 @@ RUN apt-get install -y oracle-java8-installer
 
 RUN rm -rf /var/lib/apt/lists/*
 
-RUN curl -o /opt/titan.zip https://s3.amazonaws.com/dynamodb-titan-us-east-1/dynamodb-titan054-storage-backend-1.0.1-hadoop2.zip
+RUN curl -o /opt/titan.zip https://s3.amazonaws.com/dynamodb-titan-us-east-1/dynamodb-titan100-storage-backend-1.0.0-hadoop1.zip
 
 RUN unzip /opt/titan.zip -d /opt/ && \
     rm /opt/titan.zip
 
-ADD rexster-dynamodb.xml.template /opt/dynamodb-titan054-storage-backend-1.0.1-hadoop2/
-ADD run.sh /opt/dynamodb-titan054-storage-backend-1.0.1-hadoop2/
+ADD rexster-dynamodb.xml.template /opt/dynamodb-titan100-storage-backend-1.0.0-hadoop1/
+ADD run.sh /opt/dynamodb-titan100-storage-backend-1.0.0-hadoop1/
+ADD dynamodb.properties.template /opt/dynamodb-titan100-storage-backend-1.0.0-hadoop1/conf/gremlin-server
+ADD gremlin-server.yaml /opt/dynamodb-titan100-storage-backend-1.0.0-hadoop1/conf/gremlin-server
 
-WORKDIR /opt/dynamodb-titan054-storage-backend-1.0.1-hadoop2
+WORKDIR /opt/dynamodb-titan100-storage-backend-1.0.0-hadoop1
 
 EXPOSE 8182
 EXPOSE 8183
 EXPOSE 8184
 
-CMD ["/opt/dynamodb-titan054-storage-backend-1.0.1-hadoop2/run.sh"]
+CMD ["/opt/dynamodb-titan100-storage-backend-1.0.0-hadoop1/run.sh"]
