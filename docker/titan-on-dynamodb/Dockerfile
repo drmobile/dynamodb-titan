@@ -21,7 +21,6 @@ RUN curl -o /opt/titan.zip https://s3.amazonaws.com/dynamodb-titan-us-east-1/dyn
 RUN unzip /opt/titan.zip -d /opt/ && \
     rm /opt/titan.zip
 
-ADD rexster-dynamodb.xml.template /opt/dynamodb-titan100-storage-backend-1.0.0-hadoop1/
 ADD run.sh /opt/dynamodb-titan100-storage-backend-1.0.0-hadoop1/
 ADD dynamodb.properties.template /opt/dynamodb-titan100-storage-backend-1.0.0-hadoop1/conf/gremlin-server
 ADD gremlin-server.yaml /opt/dynamodb-titan100-storage-backend-1.0.0-hadoop1/conf/gremlin-server

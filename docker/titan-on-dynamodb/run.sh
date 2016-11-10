@@ -1,12 +1,12 @@
 #!/bin/bash
 
 BIN=./bin
-SLEEP_INTERVAL_S=2
 
 IN=dynamodb.properties.template
 OUT=dynamodb.properties
 
 cp conf/gremlin-server/$IN conf/gremlin-server/$OUT
+ls conf/gremlin-server/
 
 # Use hash instead of slash because the hostport has a slash
 sed -i "s#_DYNAMODB_HOSTPORT_#${DYNAMODB_HOSTPORT}#g" conf/gremlin-server/$OUT

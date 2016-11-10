@@ -16,7 +16,7 @@ connection = DynamoDBConnection(
 
 tables = connection.list_tables()
 
-#print(connection.list_tables())
+print(connection.list_tables())
 assert(tables['TableNames'][0] == 'yourdatabasename_edgestore')
 assert(tables['TableNames'][1] == 'yourdatabasename_graphindex')
 assert(tables['TableNames'][2] == 'yourdatabasename_system_properties')
