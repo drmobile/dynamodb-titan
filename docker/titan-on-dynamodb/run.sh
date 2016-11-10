@@ -1,7 +1,6 @@
 #!/bin/bash
 
 BIN=./bin
-SLEEP_INTERVAL_S=2
 
 IN=dynamodb.properties.template
 OUT=dynamodb.properties

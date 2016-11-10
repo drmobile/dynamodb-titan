@@ -1,6 +1,6 @@
 FROM ubuntu:latest
 
-MAINTAINER Brainframe Technologies <docker@brainframe.me>
+MAINTAINER Calvin Wu <calvin.wu@soocii.me>
 
 RUN apt-get update && \
     apt-get -y upgrade
@@ -19,5 +19,7 @@ WORKDIR /opt/dynamodb-local/
 COPY ./run.sh /opt/dynamodb-local/
 
 EXPOSE 8000
+
+RUN ["chmod", "+x", "/opt/dynamodb-local/run.sh"]
 
 ENTRYPOINT ["/opt/dynamodb-local/run.sh"]

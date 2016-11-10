@@ -3,13 +3,13 @@ version: '2'
 services:
   # local dynamodb container
   dynamodb-local: 
-    image: brainframe/dynamodb-local
+    image: calvin620707/dynamodb-local
     ports:
       - "8000:8000"
 
   # titan on dynamodb container
   titan-on-dynamodb: 
-    image: jonascheng/titan-on-dynamodb
+    image: calvin620707/titan-on-dynamodb:titan1.0
     environment:
       - DYNAMODB_HOSTPORT=http://dynamodb-local:8000
       - AWS_ACCESS_KEY_ID=notcheckedlocallybutmustbeprovided
@@ -20,4 +20,3 @@ services:
       - "8182:8182"
       - "8183:8183"
       - "8184:8184"
-

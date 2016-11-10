@@ -16,13 +16,12 @@ connection = DynamoDBConnection(
 
 tables = connection.list_tables()
 
-#print(connection.list_tables())
 assert(tables['TableNames'][0] == 'yourdatabasename_edgestore')
 assert(tables['TableNames'][1] == 'yourdatabasename_graphindex')
 assert(tables['TableNames'][2] == 'yourdatabasename_system_properties')
 assert(tables['TableNames'][3] == 'yourdatabasename_systemlog')
 assert(tables['TableNames'][4] == 'yourdatabasename_titan_ids')
 assert(tables['TableNames'][5] == 'yourdatabasename_txlog')
-
+print("Tests passed.")
 
 
