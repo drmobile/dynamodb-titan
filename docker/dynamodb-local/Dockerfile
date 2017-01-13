@@ -20,4 +20,4 @@ COPY ./run.sh /opt/dynamodb-local/
 
 EXPOSE 8000
 
-ENTRYPOINT ["/opt/dynamodb-local/run.sh"]
+ENTRYPOINT ["/usr/bin/java", "-Djava.library.path=/opt/dynamodb-local/DynamoDBLocal_lib", "-jar", "DynamoDBLocal.jar", "-sharedDb"]
