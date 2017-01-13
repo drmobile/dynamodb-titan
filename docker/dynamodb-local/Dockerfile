@@ -16,8 +16,6 @@ RUN unzip /opt/dynamodb-local.zip -d /opt/dynamodb-local/ && \
 
 WORKDIR /opt/dynamodb-local/
 
-COPY ./run.sh /opt/dynamodb-local/
-
 EXPOSE 8000
 
 ENTRYPOINT ["/usr/bin/java", "-Djava.library.path=/opt/dynamodb-local/DynamoDBLocal_lib", "-jar", "DynamoDBLocal.jar", "-sharedDb"]
