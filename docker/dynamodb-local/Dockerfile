@@ -1,6 +1,6 @@
 FROM ubuntu:latest
 
-MAINTAINER Brainframe Technologies <docker@brainframe.me>
+MAINTAINER Calvin Wu <calvin.wu@soocii.me>
 
 RUN apt-get update && \
     apt-get -y upgrade
@@ -16,8 +16,6 @@ RUN unzip /opt/dynamodb-local.zip -d /opt/dynamodb-local/ && \
 
 WORKDIR /opt/dynamodb-local/
 
-COPY ./run.sh /opt/dynamodb-local/
-
 EXPOSE 8000
 
-ENTRYPOINT ["/opt/dynamodb-local/run.sh"]
+ENTRYPOINT ["/usr/bin/java", "-Djava.library.path=/opt/dynamodb-local/DynamoDBLocal_lib", "-jar", "DynamoDBLocal.jar", "-sharedDb"]

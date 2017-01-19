@@ -1,6 +1,6 @@
 FROM ubuntu:latest
 
-MAINTAINER Brainframe Technologies <docker@brainframe.me>
+MAINTAINER Calvin Wu <calvin.wu@soocii.me>
 
 RUN apt-get update
 # for add-apt-repository command
