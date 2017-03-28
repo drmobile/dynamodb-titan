@@ -20,7 +20,8 @@ before_install:
   # build titan
   - pushd docker
   - pushd titan-on-dynamodb
-  - docker build -t soocii/titan-on-dynamodb -f Dockerfile .
+  - docker build --build-arg version=$TRAVIS_BUILD_NUMBER -t soocii/titan-on-dynamodb -f Dockerfile .
+  - docker tag soocii/titan-on-dynamodb soocii/titan-on-dynamodb:$TRAVIS_BUILD_NUMBER
   - popd
   - popd
   # build dynamodb-local
@@ -48,5 +49,6 @@ after_success:
   - if [ "$TRAVIS_BRANCH" == "master" ]; then
     docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD";
     docker push soocii/titan-on-dynamodb;
+    docker push soocii/titan-on-dynamodb:$TRAVIS_BUILD_NUMBER;
     docker push soocii/dynamodb-local;
     fi
