@@ -2,13 +2,18 @@ version: '2'
 
 services:
   # local dynamodb container
-  dynamodb-local: 
+  dynamodb-local:
+    build: ./docker/dynamodb-local
     image: soocii/dynamodb-local
     ports:
       - "8000:8000"
 
   # titan on dynamodb container
-  titan-on-dynamodb: 
+  titan-on-dynamodb:
+    build:
+      context: ./docker/titan-on-dynamodb
+      args:
+        version: local-dev
     image: soocii/titan-on-dynamodb
     environment:
       - DYNAMODB_HOSTPORT=http://dynamodb-local:8000
