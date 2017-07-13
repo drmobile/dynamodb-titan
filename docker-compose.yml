@@ -22,6 +22,7 @@ services:
       - GRAPH_NAME=yourdatabasename
       - BASE_URI=http://localhost
       - JAVA_OPTIONS=-server -Xms500m -Xmx1000m -Dtitan.logdir=../log
+      - LOG_LEVEL=DEBUG
     ports:
       - "8182:8182"
       - "8183:8183"

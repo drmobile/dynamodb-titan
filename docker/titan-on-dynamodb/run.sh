@@ -37,6 +37,8 @@ function run_titan {
     sed -i "s#_GRAPH_NAME_#${GRAPH_NAME}#g" $OUT
     sed -i "s#_BASE_URI_#${BASE_URI}#g" $OUT
 
+    sed -i "s#_LOG_LEVEL_#${LOG_LEVEL:-INFO}#g" rexhome/log4j.properties
+
     $BIN/rexster.sh -s -c ../$OUT
 }
 
