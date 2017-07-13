@@ -35,6 +35,9 @@ RUN unzip /opt/titan.zip -d /opt/ && \
 ADD rexster-dynamodb.xml.template /opt/dynamodb-titan054-storage-backend-1.0.1-hadoop2/
 ADD run.sh /opt/dynamodb-titan054-storage-backend-1.0.1-hadoop2/
 
+# override log4j config
+ADD log4j.properties /opt/dynamodb-titan054-storage-backend-1.0.1-hadoop2/rexhome/
+
 WORKDIR /opt/dynamodb-titan054-storage-backend-1.0.1-hadoop2
 
 EXPOSE 8182
