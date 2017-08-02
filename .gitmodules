@@ -1,0 +1,3 @@
+[submodule "aws-dynamodb-janusgrpah"]
+	path = dynamodb-janusgraph-storage-backend
+	url = https://github.com/awslabs/dynamodb-janusgraph-storage-backend

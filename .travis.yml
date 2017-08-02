@@ -1,6 +1,6 @@
 language: python
 python:
-  - "2.7"
+  - "3.5"
 
 services:
   - docker
@@ -9,13 +9,22 @@ env:
   global:
     - TRAVIS_SECURE_ENV_VARS=true
     - DOCKER_USERNAME=jonascheng
-    - secure: "AGdAoloP2GpqsQZuIIjU+fOaqkFPepTvVW81tpwhhuyoYTOz0Sgu+S9oW0tekBjMl+xoEEuy+KDLPhbgvPA/t8YAPFVxHLRE7fYJDZv43/5DzYJbX0l5GD6QXsE4qf6luj9rWh7Gb30ZvcU0BX2jBnsR5Ch5IyzssJOE8EJziknWCuc+xw2gqkF4KXB7IckUWU9R9RF99rrG3xyMhWjlrve1lEZzzjfPI41qAa19ydvT4UlQeAH3kvazjLD7O8hM2x+TZjAuKhlyLwgACD+Ja3npeIiOxh239lrztHtaiJ2pa+8drHCloQrPaGvUL92FFm7H5k6BcT4lw3bUDr/8F0e2zHMf87+uAA+LVQsFIPWNPyj4tMtDshz+HI66O+jqG0PHtvOCyk8Rm7/sZUhTcFUCmY7wikV6tq45bw6vLbksjSplOX33ReOdNhWVnF0gx8deQFLJXcZF3mSWPwViBPEisPK+Ub81KfJeWqLa+xB/blByvaf2p/+5fx67LsUOd1WOK4BmrUDlaBAi7p/01HVSnpQEi8jviVs1+NXGfvkEzUM8BhGjgvnwOX6c6LlPs5/WKuJd3cqhP+Q1b4DYtxSShLas/6OZPqton8G+gogEXl6GCBbJZOvtlSpkPXv04dRkeykzlphY1WN+p0e3dsfK5axobcHONRbZitEL90g="
+    - secure: "jehyR08v40yiAwaM7usFWYS6egzJgOqFyIe4gjnS0PRbIXQ7yTysiJFomLocqW5TC+692nwU3ksag+0kgnB2+A4ztSLxofJaS+63DalFhvjB4+dO6G9q1n07h8pJ35daG1VIZBPbhh1Uju+40HB1wxgttSy9CZ3xiwhXsljr/4i6eNMxPN+IrxvP0y4O8Zc4F3xxjXhQ+/TIQVSXmGnbw4xtn0hpAajC3ToewBkb6H4ERgjF3Q448TgdEX7E/sYBaayW5E82sGAoqNInYvPXwYO9yewLgX08f9kdwTfYJdSnBPocZ5yaLUYR58peLZdT9DPpoxR6HqXjRWqVB5eEIKzU3zr9dNlKYEINb33LiAdWsLm2QYzEixcZbh4omumg3rgflkLHIhavguFzIDKycdxzQ2/8ZojKPaFGXLqOE3Viec9Kb1CuVQJzMAnfF2SY3pVIKla35F4bDoOWt5YM0YXyFrVsJx5EsOuwBbDOEh7vy1VhkkRpGDmjbTmOKmFJCpAitgFqjgFV/TRPOERJnH+np+JGdtu0OezWidHIShUGMrOqf91NdSRGFVfxUQtddCp4ES37O/uQMFXzq+fDbSbH+0Xgj3dzAiYM5h3XFZJXxebHpFy+W9FvQ3tBpRFQeMAnFvHbMXpABL1VAdFUOW3aokUHKK6+EZg1IhZJvn8="
 
 before_install:
-  - docker pull jonascheng/titan-on-dynamodb
+  - docker pull soocii/dynamodb-janusgraph
+  - docker pull soocii/dynamodb-local
+  # build janus
   - pushd docker
-  - pushd titan-on-dynamodb
-  - docker build -t jonascheng/titan-on-dynamodb -f Dockerfile .
+  - pushd dynamodb-janusgraph
+  - docker build --build-arg version=$TRAVIS_BUILD_NUMBER server_zip=dynamodb-janusgraph-storage-backend-1.1.1.zip -t soocii/dynamodb-janusgraph -f Dockerfile .
+  - docker tag soocii/dynamodb-janusgraph soocii/dynamodb-janusgraph:$TRAVIS_BUILD_NUMBER
+  - popd
+  - popd
+  # build dynamodb-local
+  - pushd docker
+  - pushd dynamodb-local
+  - docker build -t soocii/dynamodb-local -f Dockerfile .
   - popd
   - popd
 
@@ -26,15 +35,15 @@ before_script:
   - pip install -r requirements.txt
 
 script:
-  - pushd tests
-  - ./run_test.sh
-  - popd
+  - pytest
 
 after_script:
   - docker-compose down
 
 after_success:
-  - if [ "$TRAVIS_BRANCH" == "master" ]; then
+  - if [ "$TRAVIS_BRANCH" == "janus" ]; then
     docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD";
-    docker push jonascheng/titan-on-dynamodb;
+    docker push soocii/dynamodb-janusgraph;
+    docker push soocii/dynamodb-janusgraph:$TRAVIS_BUILD_NUMBER;
+    docker push soocii/dynamodb-local;
     fi
