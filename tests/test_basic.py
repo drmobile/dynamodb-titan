@@ -15,6 +15,7 @@ class DynamoLocalTestCase(TestCase):
             endpoint_url='http://localhost:8000',
             aws_access_key_id='',
             aws_secret_access_key='',
+            region_name='ap-northeast-1'
         )
 
         tables = list(ddb.tables.all())
