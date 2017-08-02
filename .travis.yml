@@ -12,8 +12,8 @@ env:
     - secure: "jehyR08v40yiAwaM7usFWYS6egzJgOqFyIe4gjnS0PRbIXQ7yTysiJFomLocqW5TC+692nwU3ksag+0kgnB2+A4ztSLxofJaS+63DalFhvjB4+dO6G9q1n07h8pJ35daG1VIZBPbhh1Uju+40HB1wxgttSy9CZ3xiwhXsljr/4i6eNMxPN+IrxvP0y4O8Zc4F3xxjXhQ+/TIQVSXmGnbw4xtn0hpAajC3ToewBkb6H4ERgjF3Q448TgdEX7E/sYBaayW5E82sGAoqNInYvPXwYO9yewLgX08f9kdwTfYJdSnBPocZ5yaLUYR58peLZdT9DPpoxR6HqXjRWqVB5eEIKzU3zr9dNlKYEINb33LiAdWsLm2QYzEixcZbh4omumg3rgflkLHIhavguFzIDKycdxzQ2/8ZojKPaFGXLqOE3Viec9Kb1CuVQJzMAnfF2SY3pVIKla35F4bDoOWt5YM0YXyFrVsJx5EsOuwBbDOEh7vy1VhkkRpGDmjbTmOKmFJCpAitgFqjgFV/TRPOERJnH+np+JGdtu0OezWidHIShUGMrOqf91NdSRGFVfxUQtddCp4ES37O/uQMFXzq+fDbSbH+0Xgj3dzAiYM5h3XFZJXxebHpFy+W9FvQ3tBpRFQeMAnFvHbMXpABL1VAdFUOW3aokUHKK6+EZg1IhZJvn8="
 
 before_install:
-  - docker pull soocii/dynamodb-janusgraph
-  - docker pull soocii/dynamodb-local
+#  - docker pull soocii/dynamodb-janusgraph
+#  - docker pull soocii/dynamodb-local
   # build janus
   - pushd docker
   - pushd dynamodb-janusgraph
