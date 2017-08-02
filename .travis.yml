@@ -17,7 +17,7 @@ before_install:
   # build janus
   - pushd docker
   - pushd dynamodb-janusgraph
-  - docker build --build-arg version=$TRAVIS_BUILD_NUMBER server_zip=dynamodb-janusgraph-storage-backend-1.1.1.zip -t soocii/dynamodb-janusgraph -f Dockerfile .
+  - docker build --build-arg version=$TRAVIS_BUILD_NUMBER --build-arg server_zip=dynamodb-janusgraph-storage-backend-1.1.1.zip -t soocii/dynamodb-janusgraph -f Dockerfile .
   - docker tag soocii/dynamodb-janusgraph soocii/dynamodb-janusgraph:$TRAVIS_BUILD_NUMBER
   - popd
   - popd
