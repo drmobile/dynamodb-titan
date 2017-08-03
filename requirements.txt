@@ -1,3 +1,4 @@
-boto
-bulbs
+boto3
+gremlinpython
+pytest
 

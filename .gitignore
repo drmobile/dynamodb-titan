@@ -57,3 +57,7 @@ docs/_build/
 
 # PyBuilder
 target/
+
+.DS_Store
+# zip file is too large to upload to Github. We store zip file on S3 as public file.
+dynamodb-janusgraph-storage-backend-*.zip

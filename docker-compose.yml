@@ -1,21 +1,40 @@
-version: '2'
+version: '2.1'
 
 services:
   # local dynamodb container
-  dynamodb-local: 
+  dynamodb-local:
+    build: ./docker/dynamodb-local
     image: soocii/dynamodb-local
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f http://localhost:8000/shell/ || exit 1"]
+      interval: 1s
+      timeout: 10s
+      retries: 3
     ports:
       - "8000:8000"
 
   # titan on dynamodb container
-  titan-on-dynamodb: 
-    image: soocii/titan-on-dynamodb:titan1.0
+  dynamodb-janusgraph:
+    build:
+      context: docker/dynamodb-janusgraph
+      args:
+        version: local-dev
+        server_zip: dynamodb-janusgraph-storage-backend-1.1.1.zip
+    image: soocii/dynamodb-janusgraph
+    depends_on:
+      dynamodb-local:
+        condition: service_healthy
     environment:
       - DYNAMODB_HOSTPORT=http://dynamodb-local:8000
-      - AWS_ACCESS_KEY_ID=notcheckedlocallybutmustbeprovided
-      - AWS_SECRET_ACCESS_KEY=notcheckedlocallybutmustbeprovided
+      - AWS_ACCESS_KEY_ID=none
+      - AWS_SECRET_ACCESS_KEY=none
       - GRAPH_NAME=yourdatabasename
-      - BASE_URI=http://localhost
+      - JAVA_OPTIONS=-Xms500m -Xmx1000m
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f http://localhost:8182; if [ $$? -eq 22 ]; then exit 0; else exit 1; fi"]
+      interval: 1s
+      timeout: 20s
+      retries: 20
     ports:
       - "8182:8182"
       - "8183:8183"
