@@ -38,5 +38,22 @@ function run_janus {
     ${BIN}/gremlin-server.sh ${PWD}/conf/gremlin-server/${GREMLIN_SERVER_CONF:-gremlin-server.yaml}
 }
 
+function run_janus_http {
+    BIN=./bin
+
+    IN=conf/gremlin-server/gremlin-server.yaml
+    OUT=conf/gremlin-server/gremlin-server-http.yaml
+
+    cp ${IN} ${OUT}
+
+    sed -i "s#org.apache.tinkerpop.gremlin.server.channel.WebSocketChannelizer#org.apache.tinkerpop.gremlin.server.channel.HttpChannelizer#g" ${OUT}
+    sed -i "s#port: 8182#port: 8183#g" ${OUT}
+
+    ${BIN}/gremlin-server.sh ${PWD}/${OUT}
+
+}
+
+
 run_awslogs
+run_janus_http &  # in background for ALB health check
 run_janus
