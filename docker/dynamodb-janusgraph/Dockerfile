@@ -49,4 +49,4 @@ EXPOSE 8182
 EXPOSE 8183
 EXPOSE 8184
 
-CMD ["/var/janusgraph//run.sh"]
+CMD ["/var/janusgraph/run.sh"]
