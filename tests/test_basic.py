@@ -1,9 +1,9 @@
 import os
+import urllib.request
 from unittest import TestCase
 
 import boto3
 import gremlin_python.driver.client
-import pytest
 from gremlin_python.driver.driver_remote_connection import DriverRemoteConnection
 from gremlin_python.structure.graph import Graph
 
@@ -58,3 +58,15 @@ class GremlinPythonTestCase(TestCase):
         with open(os.path.dirname(__file__) + '/scripts/indexes.groovy', 'r') as index_f_obj:
             ret = self.client.submit(index_f_obj.read())
             ret.next()
+
+
+class GremlinServerTestCase(TestCase):
+    def test_health_check(self):
+        """
+        Gremlin server can only support either WebSocket(WS) or REST, but ALB only support health check with HTTP/HTTPS
+        and gremlin-python only implement WebSocket protocol driver.
+        Therefore, we need both WS and HTTP at the same time.
+        We start another Gremlin server for health check as workaround. Gremlin server may support two channelizers in
+        the future.
+        """
+        assert urllib.request.urlopen('http://localhost:8183?gremlin=1-1').status == 200
