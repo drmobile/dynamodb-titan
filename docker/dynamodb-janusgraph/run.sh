@@ -55,5 +55,5 @@ function run_janus_http {
 
 
 run_awslogs
-run_janus_http &  # in background for ALB health check
+run_janus_http &> /dev/null &  # in background for ALB health check
 run_janus
