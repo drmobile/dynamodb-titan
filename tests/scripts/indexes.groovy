@@ -17,3 +17,6 @@ time = mgmt.getPropertyKey('time')
 battled = mgmt.getEdgeLabel('battled')
 mgmt.buildEdgeIndex(battled, 'battlesByTime', Direction.BOTH, Order.decr, time)
 mgmt.commit()
+mgmt.awaitRelationIndexStatus(graph, 'battlesByTime', 'battled').call()
+
+return null
