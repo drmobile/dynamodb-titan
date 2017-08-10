@@ -33,7 +33,9 @@ install:
 
 before_script:
   - pip install -r requirements.txt
-  - sleep 30
+  - curl -O https://raw.githubusercontent.com/vishnubob/wait-for-it/master/wait-for-it.sh
+  - chmod +x wait-for-it.sh
+  - ./wait-for-it.sh localhost:8182 -t 0
 
 script:
   - pytest

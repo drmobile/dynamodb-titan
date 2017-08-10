@@ -31,7 +31,7 @@ pip install requirement.txt
 ### Run Tests
 ```console
 docker-compose up -d
-sleep 30
+sleep 60
 pytest
 docker-compose down
 ```
