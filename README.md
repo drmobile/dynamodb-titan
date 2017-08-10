@@ -1,3 +1,8 @@
+| Branch | Build Status |
+|--------|--------------|
+| master| [![Build Status](https://travis-ci.org/drmobile/dynamodb-titan.svg?branch=master)](https://travis-ci.org/drmobile/dynamodb-titan)|
+| janus| [![Build Status](https://travis-ci.org/drmobile/dynamodb-titan.svg?branch=janus)](https://travis-ci.org/drmobile/dynamodb-titan) |
+  
 # Soocii Dynamodb JanusGraph
 Dynamodb JanusGraph docker with customized configuration.
 
