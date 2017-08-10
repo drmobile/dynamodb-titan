@@ -73,9 +73,9 @@ globals << [hook: [
             ctx.logger.info("Building schema...")
             buildSchema(graph)
             ctx.logger.info("Finished building schema.")
-            ctx.logger.info("Building init...")
+            ctx.logger.info("Building index...")
             buildIndex(graph)
-            ctx.logger.info("Finished building init.")
+            ctx.logger.info("Finished building index.")
         },
         onShutDown: { ctx ->
             ctx.logger.info("Executed once at shutdown of Gremlin Server.")
