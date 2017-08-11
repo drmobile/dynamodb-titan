@@ -25,6 +25,8 @@ ENV CONTAINER_VERSION ${version}
 
 RUN apt-get update -y && apt-get install -y zip curl
 
+RUN curl https://bootstrap.pypa.io/get-pip.py -O && python get-pip.py
+
 # install JanusGraph
 RUN curl -o /var/janusgraph.zip https://s3-ap-northeast-1.amazonaws.com/soocii-resources/${server_zip}
 RUN unzip -q /var/janusgraph.zip -d /var
