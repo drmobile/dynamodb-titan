@@ -38,6 +38,10 @@ RUN curl https://s3.amazonaws.com/aws-cloudwatch/downloads/latest/awslogs-agent-
 RUN python ./awslogs-agent-setup.py -n --configfile="/opt/awslogs/awslogs.conf" --region=ap-northeast-1
 RUN service awslogs stop
 
+# download wait-for-it
+RUN curl -o /var/janusgraph/wait-for-it.sh https://raw.githubusercontent.com/vishnubob/wait-for-it/master/wait-for-it.sh
+RUN chmod +x /var/janusgraph/wait-for-it.sh
+
 WORKDIR /var/janusgraph
 
 # add config to docker

@@ -30,6 +30,8 @@ services:
       - AWS_SECRET_ACCESS_KEY=none
       - GRAPH_NAME=yourdatabasename
       - JAVA_OPTIONS=-Xms500m -Xmx1000m
+    volumes:
+      - ./tests/scripts:/var/janusgraph/scripts
     healthcheck:
       test: ["CMD-SHELL", "curl -f http://localhost:8182; if [ $$? -eq 22 ]; then exit 0; else exit 1; fi"]
       interval: 1s

@@ -1,10 +1,10 @@
+# Soocii Dynamodb JanusGraph
+Dynamodb JanusGraph docker with customized configuration.
+
 | Branch | Build Status |
 |--------|--------------|
 | master| [![Build Status](https://travis-ci.org/drmobile/dynamodb-titan.svg?branch=master)](https://travis-ci.org/drmobile/dynamodb-titan)|
 | janus| [![Build Status](https://travis-ci.org/drmobile/dynamodb-titan.svg?branch=janus)](https://travis-ci.org/drmobile/dynamodb-titan) |
-  
-# Soocii Dynamodb JanusGraph
-Dynamodb JanusGraph docker with customized configuration.
 
 ## Build Dynamodb-JanusGraph (Optional)
 If you need to re-build DynamoDB-JanusGraph, follow the steps below to build DynamoDB-JanusGraph.
@@ -31,14 +31,38 @@ pip install requirement.txt
 ### Run Tests
 ```console
 docker-compose up -d
-sleep 30
+sleep 60
 pytest
 docker-compose down
 ```
 
-## Docker Environment Variables
+## Customize JanusGraph Docker
 ### Image
 soocii/dynamodb-janusgraph
+
+### Init Scripts
+Mount your JanusGraph scripts which will build schema and index into docker: `/var/janusgraph/scripts/init.groovy`.
+Gremlin server will start and run these script as init scripts.
+
+#### Sample of init.groovy 
+```groovy
+// an init script that returns a Map allows explicit setting of global bindings.
+def globals = [:]
+
+// defines a sample LifeCycleHook that prints some output to the Gremlin Server console.
+// note that the name of the key in the "global" map is unimportant.
+globals << [hook : [
+        onStartUp: { ctx ->
+            ctx.logger.info("Executed once at startup of Gremlin Server.")
+        },
+        onShutDown: { ctx ->
+            ctx.logger.info("Executed once at shutdown of Gremlin Server.")
+        }
+] as LifeCycleHook]
+
+// define the default TraversalSource to bind queries to - this one will be named "g".
+globals << [g : graph.traversal()]
+```
 
 ### Variables
 | Name                  | Description                                   | Default                                       |

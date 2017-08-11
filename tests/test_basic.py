@@ -35,10 +35,6 @@ class GremlinPythonTestCase(TestCase):
         self.g = self.graph.traversal().withRemote(DriverRemoteConnection('ws://localhost:8182/gremlin', 'g'))
         self.client = gremlin_python.driver.client.Client('ws://localhost:8182/gremlin', 'g')
 
-        # schema define
-        with open(os.path.dirname(__file__) + '/scripts/schema.groovy', 'r') as schema_f_obj:
-            ret = self.client.submit(schema_f_obj.read())
-            ret.next()
 
     def tearDown(self):
         self.g.V().drop().iterate()
@@ -53,11 +49,6 @@ class GremlinPythonTestCase(TestCase):
         self.g.addV('person').property('name', 'Ana').next()
         self.g.V().has('name', 'John').addE('follow').to(self.g.V().has('name', 'Ana')).next()
         assert self.g.V().has('name', 'John').out('follow').has('name', 'Ana').next()
-
-    def test_index(self):
-        with open(os.path.dirname(__file__) + '/scripts/indexes.groovy', 'r') as index_f_obj:
-            ret = self.client.submit(index_f_obj.read())
-            ret.next()
 
 
 class GremlinServerTestCase(TestCase):

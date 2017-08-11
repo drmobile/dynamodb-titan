@@ -49,12 +49,11 @@ function run_janus_http {
     sed -i "s#org.apache.tinkerpop.gremlin.server.channel.WebSocketChannelizer#org.apache.tinkerpop.gremlin.server.channel.HttpChannelizer#g" ${OUT}
     sed -i "s#port: 8182#port: 8183#g" ${OUT}
 
-    sleep 10  # to avoid 2 janus nodes run at the same time
+    ./wait-for-it.sh localhost:8182 -t 0  # wait for gremlin server ready with init.groovy
 
     ${BIN}/gremlin-server.sh ${PWD}/${OUT}
 
 }
-
 
 run_awslogs
 run_janus_http &> /dev/null &  # in background for ALB health check
