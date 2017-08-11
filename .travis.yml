@@ -33,7 +33,7 @@ install:
 
 before_script:
   - pip install -r requirements.txt
-  - python tests/wait_for_it.py localhost 8182
+  - python tests/wait_for_it.py localhost 8183
 
 script:
   - pytest
