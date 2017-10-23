@@ -35,7 +35,8 @@ install:
   - docker-compose up -d
 
 before_script:
-  - pip install --no-cache-dir -r requirements.txt
+  - easy_install distribute
+  - pip install -r requirements.txt
 
 script:
   - pushd tests
