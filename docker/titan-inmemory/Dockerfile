@@ -14,8 +14,8 @@ RUN apt-get install -y oracle-java8-installer
 
 # download Titan
 RUN apt-get install -y unzip
-RUN wget -O /opt/titan.zip https://s3.amazonaws.com/dynamodb-titan-us-east-1/dynamodb-titan054-storage-backend-1.0.1-hadoop2.zip
-RUN unzip /opt/titan.zip -d /opt/ && rm /opt/titan.zip
+RUN wget -q -O /opt/titan.zip https://s3.amazonaws.com/dynamodb-titan-us-east-1/dynamodb-titan054-storage-backend-1.0.1-hadoop2.zip
+RUN unzip -q /opt/titan.zip -d /opt/ && rm /opt/titan.zip
 
 # install python 3.4
 RUN apt-get install -y python-software-properties
@@ -24,7 +24,7 @@ RUN apt-get update
 RUN apt-get install -y python3.4
 
 # install pip
-RUN wget https://bootstrap.pypa.io/get-pip.py -O /tmp/get-pip.py
+RUN wget -q https://bootstrap.pypa.io/get-pip.py -O /tmp/get-pip.py
 RUN python /tmp/get-pip.py
 RUN pip install bulbs
 
