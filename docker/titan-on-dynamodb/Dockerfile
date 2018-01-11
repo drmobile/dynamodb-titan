@@ -17,9 +17,9 @@ RUN apt-get install -y oracle-java8-installer
 
 # install python 3.3
 RUN apt-get install -y python-software-properties
-RUN add-apt-repository ppa:fkrull/deadsnakes
+RUN add-apt-repository ppa:deadsnakes/ppa
 RUN apt-get update
-RUN apt-get install -y python3.3
+RUN apt-get install -y python3.4
 
 RUN apt-get install -y unzip curl
 
