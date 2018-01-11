@@ -1,14 +1,12 @@
 version: '2'
 
 services:
-  # local dynamodb container
   dynamodb-local:
     build: ./docker/dynamodb-local
     image: soocii/dynamodb-local
     ports:
       - "8000:8000"
 
-  # titan on dynamodb container
   titan-on-dynamodb:
     build:
       context: ./docker/titan-on-dynamodb
@@ -28,3 +26,10 @@ services:
       - "8183:8183"
       - "8184:8184"
 
+  titan-inmemory:
+    build:
+      context: ./docker/titan-inmemory
+    image: soocii/titan-inmemory
+    environment:
+      - GRAPH_NAME=yourdatabasename
+      - BASE_URI=http://localhost
