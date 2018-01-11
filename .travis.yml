@@ -30,6 +30,7 @@ before_install:
   - docker build -t soocii/dynamodb-local -f Dockerfile .
   - popd
   - popd
+  - docker-compose build titan-inmemory
 
 install:
   - docker-compose up -d
@@ -52,4 +53,5 @@ after_success:
     docker push soocii/titan-on-dynamodb;
     docker push soocii/titan-on-dynamodb:$TRAVIS_BUILD_NUMBER;
     docker push soocii/dynamodb-local;
+    docker push soocii/titan-inmemory;
     fi
