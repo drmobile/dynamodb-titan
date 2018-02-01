@@ -124,7 +124,7 @@ https://github.com/thinkaurelius/titan/blob/0.5.4/titan-dist/src/assembly/resour
                 <!-- DynamoDB client configuration: thread pool -->
                 <storage.dynamodb.client.executor.core-pool-size>25</storage.dynamodb.client.executor.core-pool-size>
                 <!-- Do not need more threads in thread pool than the number of http connections -->
-                <storage.dynamodb.client.executor.max-pool-size>50</storage.dynamodb.client.executor.max-pool-size>
+                <storage.dynamodb.client.executor.max-pool-size>250</storage.dynamodb.client.executor.max-pool-size>
                 <storage.dynamodb.client.executor.keep-alive>60000</storage.dynamodb.client.executor.keep-alive>
                 <storage.dynamodb.client.executor.max-concurrent-operations>4</storage.dynamodb.client.executor.max-concurrent-operations>
                 <!-- should be at least as large as the storage.buffer-size -->
